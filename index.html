@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elio — Frontend Studio</title>
+
+<style>
+/* ================= RESET ================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: #fff;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* ================= PAGE SYSTEM ================= */
+.page {
+    position: fixed;
+    inset: 0;
+    display: none;
+    background: #000;
+    overflow-y: auto;
+}
+.page.active { display: block; }
+
+/* ================= SPLINE BACKGROUND ================= */
+.spline-background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ================= ORIGINAL MODEL ================= */
+.viewer-container {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+}
+
+/* ================= BUTTON OVERLAY ================= */
+.button-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.liquid-btn {
+    position: absolute;
+    padding: 16px 36px;
+    border-radius: 999px;
+    font-size: 14px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    pointer-events: auto;
+    background: linear-gradient(120deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+    backdrop-filter: blur(22px);
+    border: 1px solid rgba(255,255,255,0.18);
+    transition: 0.45s cubic-bezier(.22,1,.36,1);
+}
+.liquid-btn:hover { transform: translateY(-6px) scale(1.08); }
+
+.top-left { top: 5%; left: 5%; }
+.top-right { top: 5%; right: 5%; }
+.bottom-left { bottom: 10%; left: 5%; }
+.bottom-right { bottom: 10%; right: 5%; }
+
+/* ================= CONTENT STYLE ================= */
+.content {
+    max-width: 900px;
+    margin: auto;
+    padding: 120px 40px;
+}
+
+.content h1 {
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.content p {
+    font-size: 17px;
+    line-height: 1.9;
+    opacity: 0.88;
+    margin-bottom: 28px;
+}
+
+.point {
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 26px;
+}
+.point span {
+    opacity: 0.6;
+    letter-spacing: 2px;
+}
+
+/* ================= BACK BUTTON ================= */
+.back {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    opacity: 0.7;
+}
+.back:hover { opacity: 1; }
+</style>
+</head>
+
+<body>
+
+<!-- ================= HOME ================= -->
+<div id="home" class="page active">
+
+    <div class="spline-background">
+        <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.32/build/spline-viewer.js"></script>
+        <spline-viewer url="https://prod.spline.design/bQOKVvymxabQaySy/scene.splinecode"></spline-viewer>
+    </div>
+
+    <div class="viewer-container">
+        <spline-viewer url="https://prod.spline.design/7IR532I3Gt6f-W1z/scene.splinecode"></spline-viewer>
+    </div>
+
+    <div class="button-overlay">
+        <div class="liquid-btn top-left" onclick="openPage('elio')">About Elio</div>
+        <div class="liquid-btn top-right" onclick="openPage('work')">Our Work</div>
+        <div class="liquid-btn bottom-left" onclick="openPage('devs')">About Our Devs</div>
+        <div class="liquid-btn bottom-right" onclick="openPage('offer')">What We Offer</div>
+    </div>
+</div>
+
+<!-- ================= WHAT WE OFFER ================= -->
+<div id="offer" class="page">
+<div class="back" onclick="goHome()">← BACK</div>
+<div class="content">
+<h1>What We Offer</h1>
+
+<p>
+We specialize exclusively in frontend development, crafting visually striking, interactive, and immersive user interfaces that define how your brand is experienced online.
+</p>
+
+<div class="point"><span>✦</span> Custom Frontend Design<br>
+We design and build fully custom frontend interfaces from scratch—tailored to your brand’s identity, style, and creative vision. No templates, no generic layouts.</div>
+
+<div class="point"><span>✦</span> Interactive & Motion-Driven UI<br>
+Our focus is on smooth animations, cursor-reactive elements, and interactive transitions that make your website feel alive and engaging.</div>
+
+<div class="point"><span>✦</span> Modern UI Effects<br>
+We implement advanced visual effects such as glassmorphism, liquid glass buttons, hover reactions, and dynamic UI states to deliver a premium, futuristic experience.</div>
+
+<div class="point"><span>✦</span> 3D & Immersive Frontend Experiences<br>
+We integrate 3D models, Spline scenes, and animated backgrounds directly into the frontend, creating depth and immersion without compromising usability.</div>
+
+<div class="point"><span>✦</span> Fully Responsive Interfaces<br>
+Every frontend we build is optimized for mobile, tablet, and desktop, ensuring a consistent and fluid experience across all devices.</div>
+
+<div class="point"><span>✦</span> Clean, Scalable Frontend Code<br>
+We deliver well-structured, optimized frontend code that’s easy to maintain, extend, and connect to any backend of your choice.</div>
+</div>
+</div>
+
+<!-- ================= ABOUT OUR DEVS ================= -->
+<div id="devs" class="page">
+<div class="back" onclick="goHome()">← BACK</div>
+<div class="content">
+<h1>About The Developer</h1>
+
+<p>
+I’m a frontend developer and a student, focused on building high-quality, immersive web interfaces where design, motion, and interaction come together.
+</p>
+
+<p>
+To maintain top-level quality and attention to detail, I intentionally take on only two to three projects at a time. This allows me to stay fully involved in every project—from the first idea to the final pixel.
+</p>
+
+<div class="point"><span>✦</span> Frontend-Only Specialist</div>
+<div class="point"><span>✦</span> Quality Over Quantity</div>
+<div class="point"><span>✦</span> Student With a Developer Mindset</div>
+<div class="point"><span>✦</span> Interaction & Motion Focused</div>
+<div class="point"><span>✦</span> Backend-Ready Frontend</div>
+</div>
+</div>
+
+<!-- ================= OUR WORK ================= -->
+<div id="work" class="page">
+<div class="back" onclick="goHome()">← BACK</div>
+<div class="content">
+<h1>Our Work</h1>
+
+<p>
+Right now, you are experiencing our masterpiece — the very website you’re browsing.
+This represents our highest level of frontend creativity, interaction, and design execution.
+</p>
+
+<p>
+For regular projects and order inquiries, this is our standard website where we take orders:<br><br>
+https://elio-kappa.vercel.app/
+</p>
+
+<p>
+Every project follows the same philosophy — quality, immersion, and attention to detail, regardless of scale.
+</p>
+</div>
+</div>
+
+<!-- ================= ABOUT ELIO ================= -->
+<div id="elio" class="page">
+<div class="back" onclick="goHome()">← BACK</div>
+<div class="content">
+<h1>About Elio</h1>
+
+<p>
+Elio is a frontend-focused creative studio built on the belief that quality beats quantity and experience matters more than complexity.
+</p>
+
+<p>
+Elio specializes in crafting immersive, interactive, and visually striking frontend experiences—where motion, design, and performance come together to create websites that feel alive.
+</p>
+
+<p>
+Unlike large agencies, Elio is intentionally small and focused. Every project is handled personally, allowing deep attention to detail, refined interactions, and a level of polish that mass production can’t achieve.
+</p>
+
+<div class="point"><span>✦</span> Frontend Only, Done Right</div>
+<div class="point"><span>✦</span> Limited Projects, Maximum Focus</div>
+<div class="point"><span>✦</span> Interactive & Motion-Driven Design</div>
+<div class="point"><span>✦</span> Student-Driven, Professional Execution</div>
+
+<p>
+Elio isn’t about building just another website.<br><br>
+It’s about building an experience people remember.
+</p>
+</div>
+</div>
+
+<script>
+function openPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+function goHome() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('home').classList.add('active');
+}
+</script>
+
+</body>
+</html>
