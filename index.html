@@ -1,117 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elio — Frontend Studio</title>
 
 <style>
-/* ================= RESET ================= */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body {
-    width: 100%;
-    height: 100%;
-    background: #000;
-    color: #fff;
-    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    overflow: hidden;
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+    width:100%;
+    height:100%;
+    background:#000;
+    color:#fff;
+    font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    overflow:hidden;
 }
 
 /* ================= PAGE SYSTEM ================= */
-.page {
-    position: fixed;
-    inset: 0;
-    display: none;
-    background: #000;
-    overflow-y: auto;
+.page{
+    position:fixed;
+    inset:0;
+    display:none;
+    background:#000;
+    overflow-y:auto;
 }
-.page.active { display: block; }
+.page.active{display:block}
 
-/* ================= SPLINE BACKGROUND ================= */
-.spline-background {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
+/* ================= SPLINE ================= */
+.spline-background,
+.viewer-container{
+    position:fixed;
+    inset:0;
 }
-
-/* ================= ORIGINAL MODEL ================= */
-.viewer-container {
-    position: fixed;
-    inset: 0;
-    z-index: 2;
-}
+.spline-background{z-index:0;pointer-events:none}
+.viewer-container{z-index:2}
 
 /* ================= BUTTON OVERLAY ================= */
-.button-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    pointer-events: none;
+.button-overlay{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    pointer-events:none;
 }
 
-.liquid-btn {
-    position: absolute;
-    padding: 16px 36px;
-    border-radius: 999px;
-    font-size: 14px;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    cursor: pointer;
-    pointer-events: auto;
-    background: linear-gradient(120deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+/* ================= LUXURY GLASS BUTTON ================= */
+.liquid-btn{
+    position:absolute;
+    padding:16px 38px;
+    border-radius:999px;
+    font-size:13px;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+    cursor:pointer;
+    pointer-events:auto;
+    color:#fff;
+
+    background:
+        radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,0.28), rgba(255,255,255,0.05)),
+        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02));
+
     backdrop-filter: blur(22px);
-    border: 1px solid rgba(255,255,255,0.18);
-    transition: 0.45s cubic-bezier(.22,1,.36,1);
-}
-.liquid-btn:hover { transform: translateY(-6px) scale(1.08); }
+    border:1px solid rgba(255,255,255,0.35);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset 0 -1px 0 rgba(0,0,0,0.4),
+        0 8px 30px rgba(0,0,0,0.45);
 
-.top-left { top: 5%; left: 5%; }
-.top-right { top: 5%; right: 5%; }
-.bottom-left { bottom: 10%; left: 5%; }
-.bottom-right { bottom: 10%; right: 5%; }
+    overflow:hidden;
 
-/* ================= CONTENT STYLE ================= */
-.content {
-    max-width: 900px;
-    margin: auto;
-    padding: 120px 40px;
-}
+    opacity:0;
+    transform:translateY(12px);
 
-.content h1 {
-    font-size: 48px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    margin-bottom: 40px;
+    animation:
+        btn-fade-in 1s ease forwards,
+        idle-glass 6s ease-in-out infinite;
+
+    animation-delay:2s,3.2s;
 }
 
-.content p {
-    font-size: 17px;
-    line-height: 1.9;
-    opacity: 0.88;
-    margin-bottom: 28px;
+@keyframes btn-fade-in{
+    to{opacity:1;transform:translateY(0)}
 }
 
-.point {
-    font-size: 17px;
-    line-height: 1.8;
-    margin-bottom: 26px;
-}
-.point span {
-    opacity: 0.6;
-    letter-spacing: 2px;
+@keyframes idle-glass{
+    0%,100%{
+        background:
+            radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,0.26), rgba(255,255,255,0.05)),
+            linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02));
+    }
+    50%{
+        background:
+            radial-gradient(120% 120% at 70% 30%, rgba(255,255,255,0.34), rgba(255,255,255,0.06)),
+            linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04));
+    }
 }
 
-/* ================= BACK BUTTON ================= */
-.back {
-    position: fixed;
-    top: 40px;
-    left: 40px;
-    cursor: pointer;
-    letter-spacing: 2px;
-    opacity: 0.7;
+/* Click shimmer */
+.liquid-btn::after{
+    content:"";
+    position:absolute;
+    top:-40%;
+    left:-150%;
+    width:200%;
+    height:180%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent);
+    transform:rotate(8deg);
+    opacity:0;
 }
-.back:hover { opacity: 1; }
+.liquid-btn:active::after{
+    animation:lux-wave .7s ease;
+}
+@keyframes lux-wave{
+    0%{left:-150%;opacity:0}
+    20%{opacity:.9}
+    100%{left:150%;opacity:0}
+}
+
+/* ================= POSITIONS ================= */
+.top-left{top:5%;left:5%}
+.top-right{top:5%;right:5%}
+.bottom-left{bottom:10%;left:5%}
+.bottom-right{bottom:10%;right:5%}
+
+/* ================= CONTENT ================= */
+.content{
+    max-width:900px;
+    margin:auto;
+    padding:120px 40px 160px;
+}
+.content h1{
+    font-size:48px;
+    letter-spacing:2px;
+    margin-bottom:40px;
+}
+.content p{
+    font-size:17px;
+    line-height:1.9;
+    opacity:.88;
+    margin-bottom:28px;
+}
+.point{
+    margin-bottom:26px;
+    line-height:1.8;
+}
+
+/* ================= BACK ================= */
+.back{
+    position:fixed;
+    top:40px;
+    left:40px;
+    cursor:pointer;
+    opacity:.7;
+}
+.back:hover{opacity:1}
+
+/* ================= FOOTER ================= */
+.site-footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:64px;
+    background:#000;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 40px;
+    z-index:9999;
+    font-size:12px;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.7);
+}
+@media(max-width:768px){
+    .site-footer{
+        flex-direction:column;
+        height:78px;
+        gap:6px;
+        padding:0 16px;
+        text-align:center;
+    }
+}
 </style>
 </head>
 
@@ -119,7 +189,6 @@ html, body {
 
 <!-- ================= HOME ================= -->
 <div id="home" class="page active">
-
     <div class="spline-background">
         <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.32/build/spline-viewer.js"></script>
         <spline-viewer url="https://prod.spline.design/bQOKVvymxabQaySy/scene.splinecode"></spline-viewer>
@@ -143,26 +212,24 @@ html, body {
 <div class="content">
 <h1>What We Offer</h1>
 
-<p>
-We specialize exclusively in frontend development, crafting visually striking, interactive, and immersive user interfaces that define how your brand is experienced online.
-</p>
+<p>We specialize exclusively in frontend development, crafting visually striking, interactive, and immersive user interfaces that define how your brand is experienced online.</p>
 
-<div class="point"><span>✦</span> Custom Frontend Design<br>
+<div class="point">✦ Custom Frontend Design<br>
 We design and build fully custom frontend interfaces from scratch—tailored to your brand’s identity, style, and creative vision. No templates, no generic layouts.</div>
 
-<div class="point"><span>✦</span> Interactive & Motion-Driven UI<br>
+<div class="point">✦ Interactive & Motion-Driven UI<br>
 Our focus is on smooth animations, cursor-reactive elements, and interactive transitions that make your website feel alive and engaging.</div>
 
-<div class="point"><span>✦</span> Modern UI Effects<br>
+<div class="point">✦ Modern UI Effects<br>
 We implement advanced visual effects such as glassmorphism, liquid glass buttons, hover reactions, and dynamic UI states to deliver a premium, futuristic experience.</div>
 
-<div class="point"><span>✦</span> 3D & Immersive Frontend Experiences<br>
+<div class="point">✦ 3D & Immersive Frontend Experiences<br>
 We integrate 3D models, Spline scenes, and animated backgrounds directly into the frontend, creating depth and immersion without compromising usability.</div>
 
-<div class="point"><span>✦</span> Fully Responsive Interfaces<br>
+<div class="point">✦ Fully Responsive Interfaces<br>
 Every frontend we build is optimized for mobile, tablet, and desktop, ensuring a consistent and fluid experience across all devices.</div>
 
-<div class="point"><span>✦</span> Clean, Scalable Frontend Code<br>
+<div class="point">✦ Clean, Scalable Frontend Code<br>
 We deliver well-structured, optimized frontend code that’s easy to maintain, extend, and connect to any backend of your choice.</div>
 </div>
 </div>
@@ -173,19 +240,15 @@ We deliver well-structured, optimized frontend code that’s easy to maintain, e
 <div class="content">
 <h1>About The Developer</h1>
 
-<p>
-I’m a frontend developer and a student, focused on building high-quality, immersive web interfaces where design, motion, and interaction come together.
-</p>
+<p>I’m a frontend developer and a student, focused on building high-quality, immersive web interfaces where design, motion, and interaction come together.</p>
 
-<p>
-To maintain top-level quality and attention to detail, I intentionally take on only two to three projects at a time. This allows me to stay fully involved in every project—from the first idea to the final pixel.
-</p>
+<p>To maintain top-level quality and attention to detail, I intentionally take on only two to three projects at a time. This allows me to stay fully involved in every project—from the first idea to the final pixel.</p>
 
-<div class="point"><span>✦</span> Frontend-Only Specialist</div>
-<div class="point"><span>✦</span> Quality Over Quantity</div>
-<div class="point"><span>✦</span> Student With a Developer Mindset</div>
-<div class="point"><span>✦</span> Interaction & Motion Focused</div>
-<div class="point"><span>✦</span> Backend-Ready Frontend</div>
+<div class="point">✦ Frontend-Only Specialist</div>
+<div class="point">✦ Quality Over Quantity</div>
+<div class="point">✦ Student With a Developer Mindset</div>
+<div class="point">✦ Interaction & Motion Focused</div>
+<div class="point">✦ Backend-Ready Frontend</div>
 </div>
 </div>
 
@@ -195,19 +258,12 @@ To maintain top-level quality and attention to detail, I intentionally take on o
 <div class="content">
 <h1>Our Work</h1>
 
-<p>
-Right now, you are experiencing our masterpiece — the very website you’re browsing.
-This represents our highest level of frontend creativity, interaction, and design execution.
-</p>
+<p>Right now, you are experiencing our masterpiece — the very website you’re browsing.</p>
 
-<p>
-For regular projects and order inquiries, this is our standard website where we take orders:<br><br>
-https://elio-kappa.vercel.app/
-</p>
+<p>For regular projects and order inquiries, this is our standard website where we take orders:<br>
+https://elio-kappa.vercel.app/</p>
 
-<p>
-Every project follows the same philosophy — quality, immersion, and attention to detail, regardless of scale.
-</p>
+<p>Every project follows the same philosophy — quality, immersion, and attention to detail, regardless of scale.</p>
 </div>
 </div>
 
@@ -217,37 +273,29 @@ Every project follows the same philosophy — quality, immersion, and attention 
 <div class="content">
 <h1>About Elio</h1>
 
-<p>
-Elio is a frontend-focused creative studio built on the belief that quality beats quantity and experience matters more than complexity.
-</p>
+<p>Elio is a frontend-focused creative studio built on the belief that quality beats quantity and experience matters more than complexity.</p>
 
-<p>
-Elio specializes in crafting immersive, interactive, and visually striking frontend experiences—where motion, design, and performance come together to create websites that feel alive.
-</p>
+<p>Elio specializes in crafting immersive, interactive, and visually striking frontend experiences—where motion, design, and performance come together to create websites that feel alive.</p>
 
-<p>
-Unlike large agencies, Elio is intentionally small and focused. Every project is handled personally, allowing deep attention to detail, refined interactions, and a level of polish that mass production can’t achieve.
-</p>
+<p>Unlike large agencies, Elio is intentionally small and focused. Every project is handled personally, allowing deep attention to detail, refined interactions, and a level of polish that mass production can’t achieve.</p>
 
-<div class="point"><span>✦</span> Frontend Only, Done Right</div>
-<div class="point"><span>✦</span> Limited Projects, Maximum Focus</div>
-<div class="point"><span>✦</span> Interactive & Motion-Driven Design</div>
-<div class="point"><span>✦</span> Student-Driven, Professional Execution</div>
-
-<p>
-Elio isn’t about building just another website.<br><br>
-It’s about building an experience people remember.
-</p>
+<p>Elio isn’t about building just another website.<br><br>
+It’s about building an experience people remember.</p>
 </div>
 </div>
+
+<footer class="site-footer">
+<div>© 2026 ELIO — Frontend Studio</div>
+<div>Crafted By Sohann · All Rights Reserved</div>
+</footer>
 
 <script>
-function openPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+function openPage(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
-function goHome() {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+function goHome(){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById('home').classList.add('active');
 }
 </script>
